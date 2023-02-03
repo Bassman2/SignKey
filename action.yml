@@ -14,6 +14,11 @@ inputs:
 runs:
   using: "composite"
   steps:
+    - run: |
+        dir
+        echo ${{ github.action_path }}
+      shell: cmd
+  steps:
     - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} -key ${{ inputs.key }} 
       shell: pwsh
   

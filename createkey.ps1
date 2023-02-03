@@ -34,4 +34,12 @@ if ( [string]::IsNullOrEmpty($signing_keys_payload) )
 {
     echo "no payload"	
 }
+
+
+if ([File]::Exists("$certificatePath")
+{
+	echo "file exists";
+}
+
+
 echo "ready"
