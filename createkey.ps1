@@ -1,35 +1,30 @@
 <#
     .SYNOPSIS
-    This script generates a password
+    Creates a sign key file from secret
     .DESCRIPTION
-    A password is generated that contains at least one  non-capital, one capital, one number and one special character.
-    It will than removes the similar characters (like I & l)
-    .PARAMETER length
-    The length of the password
+    Creates a sign key file from secret
+    .PARAMETER file
+    Name of the key file to generate
     .NOTES
-    Written by Barbara Forbes
-    @Ba4bes
-    https://4bes.nl
-
-param(
-    [parameter(Mandatory = $true)]
-    [string]$file
-)
-
-$signing_keys_payload = [System.Convert]::FromBase64String("${{ secrets.SIGNKEY }}")
-$currentDirectory = Get-Location
-$certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
-[IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
-
-# Return password to workflow
-echo "$signing_keys_payload"
-echo "$currentDirectory"
-echo "$certificatePath"
-    #>
+    Written by Ralf Beckers
+#>
 
 param(
     [parameter(Mandatory = $true)]
     [string]$file
 	)
 
-echo "Hello world $file"
+echo "start file: $file"
+$signing_keys_payload = [System.Convert]::FromBase64String("${{ secrets.SIGNKEY }}")
+$currentDirectory = Get-Location
+echo "currentDirectory $currentDirectory"		
+$certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
+echo "certificatePath $certificatePath"		
+[IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
+
+# fallback to DummySignKey.snk for forks without secrets.SIGNKEY defined
+if ( [string]::IsNullOrEmpty($signing_keys_payload) )
+{
+    echo "no payload"	
+}
+echo "ready"

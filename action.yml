@@ -1,6 +1,6 @@
 name: 'SignKey'
-
 description: 'Creates a sign key file from secret'
+author: 'Ralf Beckers'
 
 inputs:
   file: 
@@ -13,6 +13,4 @@ runs:
   steps:
     - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} 
       shell: pwsh
-
-      #-environment ${{ inputs.environment }} -secret ${{ inputs.secret }} -file ${{ inputs.file }} 
- 
+  
