@@ -9,6 +9,7 @@ inputs:
     default: 'SignKey.snk'
   key:
     description:  'base64 decoded key'
+    required: true
     
 runs:
   using: "composite"

@@ -11,7 +11,7 @@
 
 param(
     [parameter(Mandatory = $true)]
-    [string]$file
+    [string]$file,
     [string]$key
 	)
 
