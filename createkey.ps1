@@ -30,5 +30,6 @@ echo "$certificatePath"
 param(
     [parameter(Mandatory = $true)]
     [string]$file
+	)
 
 echo "Hello world $file"
