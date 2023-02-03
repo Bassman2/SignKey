@@ -60,7 +60,10 @@ if ( [IO.File]::Exists("$dummyPath") )
 	Copy-Item $dummyPath -Destination "Dummy.snk"
 }
 
-ForEach ($prj in [System.IO.Directory]::EnumerateFiles($currentDirectory, "*.csproj", "AllDirectories")) 
+
+echo "x3"
+$list = Get-ChildItem -Path $currentDirectory -Include *.csproj -Recurse
+ForEach ($prj in $list ) 
 {
     echo "$prj"
 }
