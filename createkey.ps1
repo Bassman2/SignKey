@@ -17,9 +17,6 @@ param(
     [string]$key
 	)
 
-echo "start file: $file"
-echo "start PSScriptRoot: $PSScriptRoot"
-
 $currentDirectory = Get-Location
 $certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
 
@@ -33,13 +30,10 @@ if ( [string]::IsNullOrEmpty($key) )
 }
 else
 {
-	echo "Key available!!!"	
-	
 	$signing_keys_payload = [System.Convert]::FromBase64String($key)
 	[IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
 }
 
-echo "x3"
 $listcs = Get-ChildItem -Path $currentDirectory -Include *.csproj -Recurse
 ForEach ($prj in $listcs ) 
 {
@@ -48,7 +42,7 @@ ForEach ($prj in $listcs )
 	
 	Copy-Item $certificatePath -Destination $to
 	
-    echo "copy to:  $to"
+    echo "$to"
 }
 
 $listvb = Get-ChildItem -Path $currentDirectory -Include *.vbproj -Recurse
@@ -59,7 +53,5 @@ ForEach ($prj in $listvb )
 	
 	Copy-Item $certificatePath -Destination $to
 	
-    echo "copy to:  $to"
+    echo "to"
 }
-
-echo "ready"
