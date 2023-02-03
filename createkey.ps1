@@ -12,10 +12,12 @@
 param(
     [parameter(Mandatory = $true)]
     [string]$file,
-    [string]$key
+    [string]$key,
+	[string]$path
 	)
 
 echo "start file: $file"
+echo "start path: $path"
 
 if ( [string]::IsNullOrEmpty($key) )
 {
@@ -36,10 +38,18 @@ if ( [string]::IsNullOrEmpty($signing_keys_payload) )
 }
 
 
-if ([File]::Exists("$certificatePath")
+if ( [File]::Exists("$certificatePath") )
 {
 	echo "file exists";
 }
 
+
+$dummyPath = Join-Path -Path $path -ChildPath "Dummy.snk"
+if ( [File]::Exists("$dummyPath") )
+{
+	echo "dummy file exists";
+	
+	Copy-Item $dummyPath -Destination "Dummy.snk"
+}
 
 echo "ready"
