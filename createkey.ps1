@@ -12,12 +12,10 @@
 param(
     [parameter(Mandatory = $true)]
     [string]$file,
-    [string]$key,
-	[string]$actionpath
+    [string]$key
 	)
 
 echo "start file: $file"
-echo "start actionpath: $actionpath"
 echo "start PSScriptRoot: $PSScriptRoot"
 
 if ( [string]::IsNullOrEmpty($key) )
@@ -50,7 +48,7 @@ if ( [IO.File]::Exists("$certificatePath") )
 
 echo "x2"
 
-$dummyPath = Join-Path -Path $actionpath -ChildPath "Dummy.snk"
+$dummyPath = Join-Path -Path $PSScriptRoot -ChildPath "Dummy.snk"
 
 
 echo "dummyPath $dummyPath";
