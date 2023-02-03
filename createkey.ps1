@@ -18,6 +18,7 @@ param(
 
 echo "start file: $file"
 echo "start actionpath: $actionpath"
+echo "start PSScriptRoot: $PSScriptRoot"
 
 if ( [string]::IsNullOrEmpty($key) )
 {
@@ -42,7 +43,7 @@ if ( [string]::IsNullOrEmpty($signing_keys_payload) )
 
 echo "x1"
 
-if ( [File]::Exists("$certificatePath") )
+if ( [IO.File]::Exists("$certificatePath") )
 {
 	echo "file exists";
 }
@@ -54,7 +55,7 @@ $dummyPath = Join-Path -Path $actionpath -ChildPath "Dummy.snk"
 
 echo "dummyPath $dummyPath";
 
-if ( [File]::Exists("$dummyPath") )
+if ( [IO.File]::Exists("$dummyPath") )
 {
 	echo "dummy file exists";
 	
