@@ -10,7 +10,7 @@
     Written by Barbara Forbes
     @Ba4bes
     https://4bes.nl
-    #>
+
 param(
     [parameter(Mandatory = $true)]
     [string]$file
@@ -25,3 +25,7 @@ $certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
 echo "$signing_keys_payload"
 echo "$currentDirectory"
 echo "$certificatePath"
+    #>
+
+
+echo "Hello world"
