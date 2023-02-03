@@ -13,11 +13,11 @@ param(
     [parameter(Mandatory = $true)]
     [string]$file,
     [string]$key,
-	[string]$path
+	[string]$actionpath
 	)
 
 echo "start file: $file"
-echo "start path: $path"
+echo "start actionpath: $actionpath"
 
 if ( [string]::IsNullOrEmpty($key) )
 {
@@ -31,6 +31,8 @@ $certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
 echo "certificatePath $certificatePath"		
 [IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
 
+echo "x0"
+
 # fallback to DummySignKey.snk for forks without secrets.SIGNKEY defined
 if ( [string]::IsNullOrEmpty($signing_keys_payload) )
 {
@@ -38,13 +40,20 @@ if ( [string]::IsNullOrEmpty($signing_keys_payload) )
 }
 
 
+echo "x1"
+
 if ( [File]::Exists("$certificatePath") )
 {
 	echo "file exists";
 }
 
+echo "x2"
 
-$dummyPath = Join-Path -Path $path -ChildPath "Dummy.snk"
+$dummyPath = Join-Path -Path $actionpath -ChildPath "Dummy.snk"
+
+
+echo "dummyPath $dummyPath";
+
 if ( [File]::Exists("$dummyPath") )
 {
 	echo "dummy file exists";
