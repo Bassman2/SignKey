@@ -12,10 +12,23 @@
 param(
     [parameter(Mandatory = $true)]
     [string]$file
+    [string]$key
+    [string]$bin
 	)
 
 echo "start file: $file"
-$signing_keys_payload = [System.Convert]::FromBase64String('${{ secrets.SIGNKEY }}')
+
+if ( [string]::IsNullOrEmpty($key) )
+{
+    echo "no key"	
+}
+
+if ( [string]::IsNullOrEmpty($bin) )
+{
+    echo "no bin"	
+}
+
+$signing_keys_payload = [System.Convert]::FromBase64String($key)
 $currentDirectory = Get-Location
 echo "currentDirectory $currentDirectory"		
 $certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
