@@ -13,7 +13,6 @@ param(
     [parameter(Mandatory = $true)]
     [string]$file
     [string]$key
-    [string]$bin
 	)
 
 echo "start file: $file"
@@ -21,11 +20,6 @@ echo "start file: $file"
 if ( [string]::IsNullOrEmpty($key) )
 {
     echo "no key"	
-}
-
-if ( [string]::IsNullOrEmpty($bin) )
-{
-    echo "no bin"	
 }
 
 $signing_keys_payload = [System.Convert]::FromBase64String($key)

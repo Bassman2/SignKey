@@ -12,8 +12,7 @@ inputs:
     
 runs:
   using: "composite"
-  environment: sign
   steps:
-    - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} -key ${{ inputs.key }} -bin ${{ secrets.SIGNKEY }}
+    - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} -key ${{ inputs.key }} 
       shell: pwsh
   
