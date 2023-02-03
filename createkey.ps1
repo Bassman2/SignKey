@@ -5,6 +5,8 @@
     Creates a sign key file from secret
     .PARAMETER file
     Name of the key file to generate
+    .PARAMETER key
+    base64 encoded key file
     .NOTES
     Written by Ralf Beckers
 #>
@@ -18,54 +20,46 @@ param(
 echo "start file: $file"
 echo "start PSScriptRoot: $PSScriptRoot"
 
+$currentDirectory = Get-Location
+$certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
+
+	
 if ( [string]::IsNullOrEmpty($key) )
 {
-    echo "no key"	
-}
-
-$signing_keys_payload = [System.Convert]::FromBase64String($key)
-$currentDirectory = Get-Location
-echo "currentDirectory $currentDirectory"		
-$certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
-echo "certificatePath $certificatePath"		
-[IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
-
-echo "x0"
-
-# fallback to DummySignKey.snk for forks without secrets.SIGNKEY defined
-if ( [string]::IsNullOrEmpty($signing_keys_payload) )
-{
-    echo "no payload"	
-}
-
-
-echo "x1"
-
-if ( [IO.File]::Exists("$certificatePath") )
-{
-	echo "file exists";
-}
-
-echo "x2"
-
-$dummyPath = Join-Path -Path $PSScriptRoot -ChildPath "Dummy.snk"
-
-
-echo "dummyPath $dummyPath";
-
-if ( [IO.File]::Exists("$dummyPath") )
-{
-	echo "dummy file exists";
+    echo "No key available!!! Use dummy key."	
 	
-	Copy-Item $dummyPath -Destination "Dummy.snk"
+	$dummyPath = Join-Path -Path $PSScriptRoot -ChildPath "Dummy.snk"
+	Copy-Item $dummyPath -Destination $certificatePath
 }
-
+else
+{
+	echo "Key available!!!"	
+	
+	$signing_keys_payload = [System.Convert]::FromBase64String($key)
+	[IO.File]::WriteAllBytes("$certificatePath", $signing_keys_payload)
+}
 
 echo "x3"
-$list = Get-ChildItem -Path $currentDirectory -Include *.csproj -Recurse
-ForEach ($prj in $list ) 
+$listcs = Get-ChildItem -Path $currentDirectory -Include *.csproj -Recurse
+ForEach ($prj in $listcs ) 
 {
-    echo "$prj"
+	$pa = [IO.Path]::GetDirectoryName($prj)
+	$to = Join-Path -Path $pa -ChildPath $file
+	
+	Copy-Item $certificatePath -Destination $to
+	
+    echo "copy to:  $to"
+}
+
+$listvb = Get-ChildItem -Path $currentDirectory -Include *.vbproj -Recurse
+ForEach ($prj in $listvb ) 
+{
+	$pa = [IO.Path]::GetDirectoryName($prj)
+	$to = Join-Path -Path $pa -ChildPath $file
+	
+	Copy-Item $certificatePath -Destination $to
+	
+    echo "copy to:  $to"
 }
 
 echo "ready"
