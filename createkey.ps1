@@ -27,5 +27,8 @@ echo "$currentDirectory"
 echo "$certificatePath"
     #>
 
+param(
+    [parameter(Mandatory = $true)]
+    [string]$file
 
-echo "Hello world"
+echo "Hello world $file"

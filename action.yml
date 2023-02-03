@@ -1,22 +1,17 @@
 name: 'SignKey'
+
 description: 'Creates a sign key file from secret'
-#inputs:
-#  environment: 
-#    description:  'environment of the secret'
-#    required: true
-#    default: 'sign'
-#  secret: 
-#    description:  'name of the secret'
-#    required: true
-#    default: 'signkey'
-#  file: 
-#    description:  'name of the file'
-#    required: true
-#    default: 'key'
+
+inputs:
+  file: 
+    description:  'name of the key file'
+    required: true
+    default: 'SignKey.snk'
+
 runs:
   using: "composite"
   steps:
-    - run: ${{ github.action_path }}/createkey.ps1 
+    - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} 
       shell: pwsh
 
       #-environment ${{ inputs.environment }} -secret ${{ inputs.secret }} -file ${{ inputs.file }} 
