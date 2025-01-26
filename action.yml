@@ -4,12 +4,13 @@ author: 'Ralf Beckers'
 
 inputs:
   file: 
-    description:  'name of the key file'
+    description: 'name of the key file'
     required: true
     default: 'SignKey.snk'
   key:
-    description:  'base64 decoded key'
+    description: 'base64 decoded key'
     required: true
+    default: ''
     
 runs:
   using: "composite"
