@@ -10,16 +10,11 @@ inputs:
   key:
     description: 'base64 decoded key'
     required: false
-    default: ''
     
 runs:
   using: "composite"
 
   steps:
-     - run: echo -file ${{ inputs.file }} -key ${{ inputs.key }} 
+     - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} -key ${{ inputs.key }} 
        shell: pwsh
-
-
-#    - run: ${{ github.action_path }}/createkey.ps1 -file ${{ inputs.file }} -key ${{ inputs.key }} 
-#      shell: pwsh
   

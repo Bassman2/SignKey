@@ -14,6 +14,7 @@
 param(
     [parameter(Mandatory = $true)]
     [string]$file,
+	[AllowEmptyString()]
     [string]$key
 	)
 
