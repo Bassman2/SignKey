@@ -11,16 +11,10 @@
     Written by Ralf Beckers
 #>
 
-param(
-    [parameter(Mandatory = $true)]
-    [string]$file,
-	[AllowEmptyString()]
-    [string]$key
-	)
-
+$file = $args[0]
+$key = $args[1]
 $currentDirectory = Get-Location
 $certificatePath = Join-Path -Path $currentDirectory -ChildPath $file
-
 	
 if ( [string]::IsNullOrEmpty($key) )
 {
